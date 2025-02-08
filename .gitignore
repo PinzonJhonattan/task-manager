@@ -1,0 +1,6 @@
+# Archivos a ignorar
+node_modules/
+venv/
+__pycache__/
+*.pyc
+*.sqlite3
