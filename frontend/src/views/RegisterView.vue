@@ -1,10 +1,10 @@
 <template>
-    <div class="min-h-screen flex items-center justify-center bg-gray-100">
-      <div class="bg-white p-8 rounded-lg shadow-md w-96">
-        <h2 class="text-2xl font-bold mb-6 text-center">Register</h2>
+    <div class="min-h-screen flex items-center justify-center bg-[#13161c]">
+      <div class="bg-[#172635] p-8 rounded-lg shadow-md w-96">
+        <h2 class="text-2xl font-bold mb-6 text-center text-[#0791E6]">Register</h2>
         <form @submit.prevent="register">
           <div class="mb-4">
-            <label for="username" class="block text-sm font-medium text-gray-700">Username:</label>
+            <label for="username" class="block text-sm font-medium text-[#f7f7f7]">Username:</label>
             <input
               type="text"
               v-model="username"
@@ -13,7 +13,7 @@
             />
           </div>
           <div class="mb-6">
-            <label for="password" class="block text-sm font-medium text-gray-700">Password:</label>
+            <label for="password" class="block text-sm font-medium text-[#f7f7f7]">Password:</label>
             <input
               type="password"
               v-model="password"
@@ -28,7 +28,7 @@
             Register
           </button>
         </form>
-        <p class="mt-4 text-center text-sm text-gray-600">
+        <p class="mt-4 text-center text-sm text-[#f7f7f7]">
           Already have an account?
           <router-link to="/login" class="text-indigo-600 hover:text-indigo-500">Login</router-link>
         </p>
