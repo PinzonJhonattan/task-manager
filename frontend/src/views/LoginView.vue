@@ -27,6 +27,11 @@
         >
           Login
         </button>
+        <!-- Mensaje de error -->
+        <p v-if="errorMessage" class="mt-4 text-center text-red-500">
+          {{ errorMessage }}
+        </p>
+        
       </form>
       <p class="mt-4 text-center text-sm text-[#f7f7f7]">
         Don't have an account?
@@ -45,23 +50,33 @@ export default {
   setup() {
     const username = ref('');
     const password = ref('');
+    const errorMessage = ref('');
     const router = useRouter();
 
     const login = async () => {
+      errorMessage.value = ''; // Limpiar el mensaje de error antes de cada intento
+
       try {
         const response = await api.post('/token/', {
           username: username.value,
           password: password.value,
         });
+
         localStorage.setItem('access_token', response.data.access);
         localStorage.setItem('refresh_token', response.data.refresh);
         router.push('/tasks');
-      } catch (error) {
-        console.error('Login failed:', error);
+      } 
+      catch (error: any) { // 👈 Declaramos error como "any" para evitar problemas de tipado
+        if (error.response?.status === 401) { // 👈 Usamos "?" para evitar errores si response es undefined
+          errorMessage.value = 'Usuario o contraseña incorrectos';
+        } else {
+          errorMessage.value = 'Error al iniciar sesión. Inténtalo de nuevo.';
+        }
       }
     };
 
-    return { username, password, login };
+
+    return { username, password, errorMessage, login };
   },
 };
 </script>

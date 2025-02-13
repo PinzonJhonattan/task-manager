@@ -27,6 +27,11 @@
           >
             Register
           </button>
+            <!-- Mensaje de error -->
+          <p v-if="errorMessage" class="mt-4 text-center text-red-500">
+            {{ errorMessage }}
+          </p>
+
         </form>
         <p class="mt-4 text-center text-sm text-[#f7f7f7]">
           Already have an account?
@@ -45,21 +50,28 @@
     setup() {
       const username = ref('');
       const password = ref('');
+      const errorMessage = ref(''); //variable para errores
       const router = useRouter();
   
       const register = async () => {
+        errorMessage.value = ''; // Limpiar mensaje antes de intentar registrar
+
         try {
           await api.post('/register/', {
             username: username.value,
             password: password.value,
           });
           router.push('/login');
-        } catch (error) {
-          console.error('Registration failed:', error);
+        } catch (error: any) {
+            if (error.response?.status === 400) { // Si la API devuelve 400, el usuario ya existe
+            errorMessage.value = 'El usuario ya está registrado. Intenta con otro nombre.';
+          } else {
+            errorMessage.value = 'Error al registrarse. Inténtalo de nuevo.';
+          }
         }
       };
   
-      return { username, password, register };
+      return { username, password, errorMessage, register };
     },
   };
   </script>
